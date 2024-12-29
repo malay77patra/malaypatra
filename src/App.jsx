@@ -1,20 +1,17 @@
 import './styles/components.css'
 import Dock from "./components/Dock"
 import Tooltip from './components/Tooltip'
+import IconCloud from './components/Cloud'
 
 function App() {
 
   return (
-    <div>
-      <h1
-        style={{
-          backgroundColor: 'lightcoral',
-          margin: 0,
-        }}
-      >Morden UI Website</h1>
+    <>
       <Dock />
       <Tooltip />
-    </div>
+      <IconCloud />
+      <span>hii</span>
+    </>
   )
 }
 

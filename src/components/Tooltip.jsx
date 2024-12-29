@@ -7,7 +7,7 @@ export default function Tooltip() {
     const tooltipTimeoutID = useRef(null);
     const tooltipEle = useRef(null);
 
-    const calculatePos = (tooltipBound, targetBound, screenBound, margin = 12, pos = "auto") => {
+    const calculatePos = (tooltipBound, targetBound, screenBound, margin = 16, pos = "auto") => {
         const setToTop = () => {
             const left = targetBound.x + (targetBound.width / 2) - (tooltipBound.width / 2);
             const top = targetBound.y - tooltipBound.height - margin;
@@ -77,12 +77,10 @@ export default function Tooltip() {
     }
 
     const showToolTip = (ele, content) => {
-        // First, update content and make tooltip visible but hidden
         setContent(content);
         tooltipEle.current.style.visibility = 'hidden';
         tooltipEle.current.style.opacity = '0';
 
-        // Use requestAnimationFrame to ensure the content is rendered
         requestAnimationFrame(() => {
             const targetBound = ele.getBoundingClientRect();
             const tooltipBound = tooltipEle.current.getBoundingClientRect();
@@ -96,7 +94,6 @@ export default function Tooltip() {
             const newPosition = calculatePos(tooltipBound, targetBound, screenBound);
             setPosData(newPosition);
 
-            // Make tooltip visible in the next frame
             requestAnimationFrame(() => {
                 tooltipEle.current.style.visibility = 'visible';
                 tooltipEle.current.style.opacity = '1';
@@ -118,7 +115,7 @@ export default function Tooltip() {
             const content = ele.getAttribute('data-tooltip-content').trim();
             if (!content) return;
 
-            const delay = parseInt(ele.getAttribute('data-tooltip-delay'), 10) || 500;
+            const delay = parseInt(ele.getAttribute('data-tooltip-delay'), 10) || 1000;
             tooltipTimeoutID.current = setTimeout(() => {
                 showToolTip(ele, content);
             }, delay);

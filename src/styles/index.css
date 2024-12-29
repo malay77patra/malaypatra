@@ -29,6 +29,9 @@ body.dark {
   --clr-accent-base: 35, 134, 54;
   --clr-accent: rgb(var(--clr-accent-base));
   --clr-accent-hover: rgba(var(--clr-accent-base), 0.8);
+
+  --tooltip-bg: #efefef;
+  --tooltip-txt: #333;
 }
 
 body {
@@ -38,6 +41,8 @@ body {
   margin: 0;
   background-color: var(--clr-bg);
   color: var(--clr-txt);
+
+  padding-top: 10dvh;
 }
 
 

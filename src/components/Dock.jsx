@@ -18,10 +18,10 @@ const Dock = ({ ...props }) => {
             <DockButton data-tooltip-content="Linkedin">
                 <SvgIcon icon={Linkedin} to="/github.com" />
             </DockButton>
-            <DockButton>
+            <DockButton data-tooltip-content="Mail">
                 <SvgIcon icon={Mail} to="/github.com" />
             </DockButton>
-            <DockButton>
+            <DockButton data-tooltip-content="Theme">
                 <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
             </DockButton>
         </div>
