@@ -13,13 +13,13 @@ const Dock = ({ ...props }) => {
     return (
         <div className="dock" {...props} >
             <DockButton data-tooltip-content="Github" >
-                <SvgIcon icon={Github} to="/github.com" />
+                <SvgIcon icon={Github} to="https://github.com/malay77patra" />
             </DockButton>
             <DockButton data-tooltip-content="Linkedin">
-                <SvgIcon icon={Linkedin} to="/github.com" />
+                <SvgIcon icon={Linkedin} to="https://www.linkedin.com/in/malaypatra/" />
             </DockButton>
             <DockButton data-tooltip-content="Mail">
-                <SvgIcon icon={Mail} to="/github.com" />
+                <SvgIcon icon={Mail} to="mailto:malay77patra@gmail.com" />
             </DockButton>
             <DockButton data-tooltip-content="Theme">
                 <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
