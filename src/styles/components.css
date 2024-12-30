@@ -131,6 +131,25 @@
     color: var(--clr-txt-sec);
 }
 
+@media (max-width: 768px) {
+    .typo-h1 {
+        font-size: 2rem;
+        margin: 8px 0;
+    }
+
+    .typo-h2 {
+        margin: 4px 0;
+    }
+
+    .typo-h3 {
+        margin: 2px 0;
+    }
+
+    .typo-p {
+        font-size: 14px;
+    }
+}
+
 /* sparkles  */
 .sp-wrapper {
     display: inline-block;
