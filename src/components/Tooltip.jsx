@@ -1,11 +1,7 @@
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect } from "react";
 
-export default function Tooltip() {
-    const [content, setContent] = useState('');
-    const [posData, setPosData] = useState({ top: 0, left: 0 });
-    const [isVisible, setIsVisible] = useState(false);
-    const tooltipTimeoutID = useRef(null);
-    const tooltipEle = useRef(null);
+export default function TooltipManager() {
+    const [tooltips, setTooltips] = useState({});
 
     const calculatePos = (tooltipBound, targetBound, screenBound, margin = 16, pos = "auto") => {
         const setToTop = () => {
@@ -46,18 +42,6 @@ export default function Tooltip() {
             return pos;
         }
 
-        const positionFunctions = {
-            top: setToTop,
-            bottom: setToBottom,
-            left: setToLeft,
-            right: setToRight
-        };
-
-        if (positionFunctions[pos]) {
-            return adjustToScreen(positionFunctions[pos]());
-        }
-
-        // Try all positions and use the first one that fits
         const positions = [setToTop, setToBottom, setToLeft, setToRight];
         for (const positionFn of positions) {
             const result = positionFn();
@@ -72,92 +56,132 @@ export default function Tooltip() {
             }
         }
 
-        // If no position fits perfectly, fall back to adjusted top position
         return adjustToScreen(setToTop());
     }
 
-    const showToolTip = (ele, content) => {
-        setContent(content);
-        tooltipEle.current.style.visibility = 'hidden';
-        tooltipEle.current.style.opacity = '0';
+    const createTooltip = (element) => {
+        const content = element.getAttribute('data-tooltip-content').trim();
+        if (!content) return;
 
-        requestAnimationFrame(() => {
-            const targetBound = ele.getBoundingClientRect();
-            const tooltipBound = tooltipEle.current.getBoundingClientRect();
-            const screenBound = {
-                x: 0,
-                y: 0,
-                height: window.innerHeight,
-                width: window.innerWidth
-            };
+        // Create a unique ID for this tooltip instance
+        const tooltipId = `tooltip-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
-            const newPosition = calculatePos(tooltipBound, targetBound, screenBound);
-            setPosData(newPosition);
+        // Create and append temporary tooltip element to get its dimensions
+        const tempTooltip = document.createElement('span');
+        tempTooltip.className = 'tooltip';
+        tempTooltip.style.visibility = 'hidden';
+        tempTooltip.textContent = content;
+        document.body.appendChild(tempTooltip);
 
-            requestAnimationFrame(() => {
-                tooltipEle.current.style.visibility = 'visible';
-                tooltipEle.current.style.opacity = '1';
-                setIsVisible(true);
-            });
-        });
+        const targetBound = element.getBoundingClientRect();
+        const tooltipBound = tempTooltip.getBoundingClientRect();
+        const screenBound = {
+            x: 0,
+            y: 0,
+            height: window.innerHeight,
+            width: window.innerWidth
+        };
+
+        const position = calculatePos(tooltipBound, targetBound, screenBound);
+
+        // Remove temporary tooltip
+        document.body.removeChild(tempTooltip);
+
+        // Add new tooltip to state
+        setTooltips(prev => ({
+            ...prev,
+            [tooltipId]: {
+                content,
+                position,
+                id: tooltipId
+            }
+        }));
+
+        return tooltipId;
     }
 
-    const hideToolTip = () => {
-        tooltipEle.current.style.opacity = '0';
-        setIsVisible(false);
+    const removeTooltip = (tooltipId) => {
+        setTooltips(prev => {
+            const newTooltips = { ...prev };
+            delete newTooltips[tooltipId];
+            return newTooltips;
+        });
     }
 
     useEffect(() => {
         const tooltipElements = document.querySelectorAll('[data-tooltip-content]');
+        const activeTooltips = new Map();
 
         const handleMouseEnter = (e) => {
-            const ele = e.target;
-            const content = ele.getAttribute('data-tooltip-content').trim();
+            const element = e.target;
+            const content = element.getAttribute('data-tooltip-content').trim();
             if (!content) return;
 
-            const delay = parseInt(ele.getAttribute('data-tooltip-delay'), 10) || 1000;
-            tooltipTimeoutID.current = setTimeout(() => {
-                showToolTip(ele, content);
+            const delay = parseInt(element.getAttribute('data-tooltip-delay'), 10) || 1000;
+            const timeoutId = setTimeout(() => {
+                const tooltipId = createTooltip(element);
+                if (tooltipId) {
+                    activeTooltips.set(element, tooltipId);
+                }
             }, delay);
+
+            // Store timeout ID for cleanup
+            element.dataset.tooltipTimeout = timeoutId;
         };
 
-        const handleMouseLeave = () => {
-            if (tooltipTimeoutID.current) {
-                clearTimeout(tooltipTimeoutID.current);
+        const handleMouseLeave = (e) => {
+            const element = e.target;
+
+            // Clear timeout if tooltip hasn't appeared yet
+            const timeoutId = element.dataset.tooltipTimeout;
+            if (timeoutId) {
+                clearTimeout(Number(timeoutId));
+                delete element.dataset.tooltipTimeout;
             }
-            hideToolTip();
+
+            // Remove tooltip if it exists
+            const tooltipId = activeTooltips.get(element);
+            if (tooltipId) {
+                removeTooltip(tooltipId);
+                activeTooltips.delete(element);
+            }
         };
 
-        tooltipElements.forEach((ele) => {
-            ele.addEventListener('mouseenter', handleMouseEnter);
-            ele.addEventListener('mouseleave', handleMouseLeave);
+        tooltipElements.forEach((element) => {
+            element.addEventListener('mouseenter', handleMouseEnter);
+            element.addEventListener('mouseleave', handleMouseLeave);
         });
 
-        // Cleanup
         return () => {
-            tooltipElements.forEach((ele) => {
-                ele.removeEventListener('mouseenter', handleMouseEnter);
-                ele.removeEventListener('mouseleave', handleMouseLeave);
+            tooltipElements.forEach((element) => {
+                element.removeEventListener('mouseenter', handleMouseEnter);
+                element.removeEventListener('mouseleave', handleMouseLeave);
+
+                // Clear any remaining timeouts
+                const timeoutId = element.dataset.tooltipTimeout;
+                if (timeoutId) {
+                    clearTimeout(Number(timeoutId));
+                }
             });
         };
     }, []);
 
     return (
-        <span
-            className="tooltip"
-            style={{
-                opacity: isVisible ? 1 : 0,
-                visibility: isVisible ? 'visible' : 'hidden',
-                position: 'fixed',
-                top: posData.top,
-                left: posData.left,
-                transition: 'opacity 0.2s',
-                pointerEvents: 'none',
-                zIndex: 1000
-            }}
-            ref={tooltipEle}
-        >
-            {content}
-        </span>
+        <>
+            {Object.values(tooltips).map(tooltip => (
+                <span
+                    key={tooltip.id}
+                    className="tooltip"
+                    style={{
+                        top: tooltip.position.top,
+                        left: tooltip.position.left,
+                        opacity: 1,
+                        visibility: 'visible',
+                    }}
+                >
+                    {tooltip.content}
+                </span>
+            ))}
+        </>
     );
 }

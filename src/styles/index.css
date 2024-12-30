@@ -2,7 +2,7 @@
   --clr-bg: #fff;
   --clr-bg-sec: rgb(250, 251, 251);
   --clr-txt: rgb(26, 30, 35);
-  --clr-txt-sec: rgb(26, 30, 35);
+  --clr-txt-sec: rgb(149, 149, 149);
   --clr-bdr: rgb(232, 234, 238);
   --clr-icon: rgba(0, 0, 0, 0.6);
   --clr-comp: #fff;
@@ -11,7 +11,8 @@
   --clr-accent: rgb(var(--clr-accent-base));
   --clr-accent-hover: rgba(var(--clr-accent-base), 0.8);
 
-  --shadow-p: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;;
+  --shadow-p: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  ;
 
   --tooltip-bg: #333;
   --tooltip-txt: #fff;
@@ -41,8 +42,9 @@ body {
   margin: 0;
   background-color: var(--clr-bg);
   color: var(--clr-txt);
-
-  padding-top: 10dvh;
+  font-family: "Poppins", serif;
+  font-weight: 500;
+  font-style: normal;
 }
 
 

@@ -14,7 +14,7 @@ const IconCloud = () => {
             minContrastRatio: 21,
             fallbackHex: (theme == 'dark') ? '#fff' : '#000',
             icon,
-            size: 42,
+            size: 72,
             aProps: {
                 onClick: (e) => e.preventDefault()
             }
@@ -32,11 +32,11 @@ const IconCloud = () => {
             clickToFront: 500,
             reverse: true,
         }}
-        containerProps={{
-            style: {
-                display: 'inline-block'
-            }
-        }}
+            containerProps={{
+                style: {
+                    display: 'inline-block'
+                }
+            }}
         >
             {icons}
         </Cloud>
