@@ -1,7 +1,7 @@
 import './styles/components.css'
 import Dock from "./components/Dock"
 import Tooltip from './components/Tooltip'
-import IconCloud from './components/Cloud'
+import IconCloud from './components/IconCloud'
 
 function App() {
 
@@ -10,7 +10,6 @@ function App() {
       <Dock />
       <Tooltip />
       <IconCloud />
-      <span>hii</span>
     </>
   )
 }

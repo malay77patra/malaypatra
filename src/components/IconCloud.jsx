@@ -30,7 +30,7 @@ const IconCloud = () => {
             initial: [0.1, 0.1],
             minSpeed: 0.01,
             clickToFront: 500,
-            reverse: true
+            reverse: true,
         }}
         containerProps={{
             style: {
