@@ -29,6 +29,10 @@
     .hero-container {
         flex-direction: column;
     }
+    .hero-1 {
+        width: 90%;
+        padding-top: 3rem;
+    }
 
     .hero-2 {
         padding-left: 24px;
