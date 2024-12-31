@@ -4,7 +4,19 @@ import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
 import { useRandomInterval } from '../hooks/useRandomInterval';
 import { random, range } from '../utils/utils';
 
-const DEFAULT_COLOR = '#FFC700';
+const sparkleColors = [
+    "#FFDD00", // Gold
+    "#FF69B4", // Hot Pink
+    "#00FFFF", // Cyan
+    "#FFD700", // Yellow Gold
+    "#FF1493", // Deep Pink
+    "#8A2BE2", // Blue Violet
+    "#ADFF2F", // Green Yellow
+    "#FF4500", // Orange Red
+    "#00FA9A", // Medium Spring Green
+    "#800080"  // Purple
+];
+
 
 const generateSparkle = (color) => {
     return {
@@ -20,7 +32,10 @@ const generateSparkle = (color) => {
     };
 };
 
-const Sparkles = ({ color = DEFAULT_COLOR, factor = 1, children, ...delegated }) => {
+const Sparkles = ({ color = null, scale = 1, children, ...delegated }) => {
+
+    color = color || sparkleColors[random(0, sparkleColors.length - 1)];
+
     const [sparkles, setSparkles] = React.useState(() => {
         return range(3).map(() => generateSparkle(color));
     });
@@ -30,7 +45,6 @@ const Sparkles = ({ color = DEFAULT_COLOR, factor = 1, children, ...delegated })
     useRandomInterval(
         () => {
             const sparkle = generateSparkle(color);
-
             const now = Date.now();
 
             const nextSparkles = sparkles.filter(sp => {
@@ -52,7 +66,7 @@ const Sparkles = ({ color = DEFAULT_COLOR, factor = 1, children, ...delegated })
                 <Sparkle
                     key={sparkle.id}
                     color={sparkle.color}
-                    size={sparkle.size * factor}
+                    size={sparkle.size * scale}
                     style={sparkle.style}
                 />
             ))}

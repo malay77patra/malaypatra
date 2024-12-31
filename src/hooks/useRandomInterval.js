@@ -1,19 +1,20 @@
 
-import React from "react";
+import { useEffect, useRef, useCallback } from "react";
 
-// Utility helper for random number generation
-const random = (min, max) =>
-    Math.floor(Math.random() * (max - min)) + min;
+
+const random = (min, max) => {
+    return Math.floor(Math.random() * (max - min)) + min;
+}
 
 const useRandomInterval = (callback, minDelay, maxDelay) => {
-    const timeoutId = React.useRef(null);
-    const savedCallback = React.useRef(callback);
+    const timeoutId = useRef(null);
+    const savedCallback = useRef(callback);
 
-    React.useEffect(() => {
+    useEffect(() => {
         savedCallback.current = callback;
     }, [callback]);
 
-    React.useEffect(() => {
+    useEffect(() => {
         let isEnabled =
             typeof minDelay === 'number' && typeof maxDelay === 'number';
 
@@ -33,7 +34,7 @@ const useRandomInterval = (callback, minDelay, maxDelay) => {
         return () => window.clearTimeout(timeoutId.current);
     }, [minDelay, maxDelay]);
 
-    const cancel = React.useCallback(function () {
+    const cancel = useCallback(function () {
         window.clearTimeout(timeoutId.current);
     }, []);
 

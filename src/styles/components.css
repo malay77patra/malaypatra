@@ -160,6 +160,7 @@
     position: absolute;
     display: block;
     animation: comeInOut 700ms forwards;
+    transform: translate(-50%, -50%);
 }
 
 .sparkle-svg {
@@ -195,4 +196,19 @@
     100% {
         transform: rotate(180deg);
     }
+}
+
+/* image  */
+.img1-wrapper {
+    display: block;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.img1-wrapper>div {
+    background-color: var(--clr-bdr);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
