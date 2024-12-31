@@ -5,12 +5,14 @@ import IconCloud from './components/IconCloud'
 import './styles/app.css'
 import { H1, H3, P } from './components/Typography'
 import Sparkles from './components/Sparkles'
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
+import { ThemeContext } from "./context/ThemeContext"
 import { loadSlim } from "@tsparticles/slim";
 
 function App() {
-  const [init, setInit] = useState(false);
+    const { theme, _ } = useContext(ThemeContext);
+    const [init, setInit] = useState(false);
 
   useEffect(() => {
     initParticlesEngine(async (engine) => {
@@ -227,7 +229,7 @@ function App() {
                     }
                   },
                   "color": {
-                    "value": "#ffffff",
+                    "value": `${theme === 'dark' ? '#fff' : '#000'}`,
                     "animation": {
                       "h": {
                         "count": 0,
