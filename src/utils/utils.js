@@ -91,6 +91,7 @@ export const particleNasaTheme = (theme) => ({
                 "mix": false,
                 "opacity": 0,
                 "size": 0,
+                "color": `${theme === 'dark' ? '#ff0' : '#000'}`,
                 "divs": {
                     "distance": 200,
                     "duration": 0.4,

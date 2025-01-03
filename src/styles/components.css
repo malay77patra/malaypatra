@@ -52,7 +52,7 @@
     bottom: 16px;
     left: 50%;
     transform: translateX(-50%);
-    box-shadow: var(--shadow-p);
+    box-shadow: var(--shadow-1);
     background-color: var(--clr-comp);
     transition: background-color .2s ease-in-out, border .2s ease-in-out;
 }
@@ -128,7 +128,6 @@
 
 .typo-p {
     margin: 0;
-    color: var(--clr-txt-sec);
 }
 
 @media (max-width: 768px) {

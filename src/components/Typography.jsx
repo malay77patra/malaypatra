@@ -13,3 +13,12 @@ export const H3 = ({ children, ...props }) => (
 export const P = ({ children, ...props }) => (
     <p className="typo-p" {...props}>{children}</p>
 );
+
+export const H = ({ variant = 1, children }) => {
+
+    return (
+        <span className={`typo-h${variant}`}>
+            {children}
+        </span>
+    )
+}

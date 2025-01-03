@@ -1,17 +1,13 @@
 :root {
   --clr-bg: #fff;
-  --clr-bg-sec: rgb(250, 251, 251);
   --clr-txt: rgb(26, 30, 35);
-  --clr-txt-sec: rgb(149, 149, 149);
   --clr-bdr: rgb(232, 234, 238);
-  --clr-icon: rgba(0, 0, 0, 0.6);
   --clr-comp: #fff;
   --clr-comp-hover: rgb(237, 243, 248);
-  --clr-accent-base: 25, 118, 210;
+  --clr-accent-base: 163, 116, 255;
   --clr-accent: rgb(var(--clr-accent-base));
-  --clr-accent-hover: rgba(var(--clr-accent-base), 0.8);
 
-  --shadow-p: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  --shadow-1: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 
   --tooltip-bg: #333;
   --tooltip-txt: #fff;
@@ -21,16 +17,10 @@
 
 body.dark {
   --clr-bg: rgb(1, 4, 9);
-  --clr-bg-sec: rgb(13, 17, 23);
   --clr-txt: rgb(240, 246, 252);
-  --clr-txt-sec: rgb(145, 152, 161);
   --clr-bdr: #3d444d;
-  --clr-icon: #9198a1;
   --clr-comp: rgb(33, 40, 48);
   --clr-comp-hover: rgb(58, 65, 72);
-  --clr-accent-base: 35, 134, 54;
-  --clr-accent: rgb(var(--clr-accent-base));
-  --clr-accent-hover: rgba(var(--clr-accent-base), 0.8);
 
   --tooltip-bg: #efefef;
   --tooltip-txt: #333;
